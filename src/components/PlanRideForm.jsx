@@ -3,6 +3,7 @@ import "./PlanRideForm.css";
 import { useNavigate } from "react-router-dom";
 import { database } from "../firebase-config";
 import { getDatabase, ref, get } from "firebase/database";
+import { useEffect } from "react";
 
 const PlanRideForm = () => {
 	const navigate = useNavigate();
@@ -11,6 +12,14 @@ const PlanRideForm = () => {
 
 	const [locationDataFrom, setLocationDataFrom] = useState(null);
 	const [locationDataTo, setLocationDataTo] = useState(null);
+
+	useEffect(() => {
+		if (locationDataFrom !== null && locationDataTo !== null) {
+			const locationState = { from: locationDataFrom, to: locationDataTo };
+			navigate("/map", { state: locationState });
+		}
+	}, [locationDataFrom, locationDataTo]);
+
 	const handleLocationSearchFrom = async () => {
 		if (locationNameFrom.trim() === "") {
 			return; // Handle empty input or validation as needed.
@@ -60,13 +69,6 @@ const PlanRideForm = () => {
 		await handleLocationSearchTo();
 		console.log(locationDataFrom);
 		console.log(locationDataTo);
-
-		if (locationDataFrom !== null && locationDataTo !== null) {
-			const locationState = { from: locationDataFrom, to: locationDataTo };
-
-			// Navigate to the /map route with location.state
-			navigate("/map", { state: locationState });
-		}
 	};
 
 	return (
