@@ -1,0 +1,70 @@
+.plan-ride {
+	align-items: center;
+	justify-content: center;
+	margin-left: 40vw;
+}
+
+.ride-details {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 20px 0;
+}
+
+.circle {
+	width: 15px;
+	height: 15px;
+	background-color: #e20d0d;
+	border-radius: 50%;
+	margin: 5px;
+}
+
+.square {
+	width: 15px;
+	height: 15px;
+	background-color: #19c871;
+	border-radius: 50%;
+	margin: 5px;
+}
+
+.from-input,
+.to-input {
+	display: flex;
+	align-items: center;
+	margin: 10px;
+	border-radius: 15px;
+	border: 2px solid #191818;
+}
+
+input {
+	width: 100%;
+	padding: 10px;
+	margin: 5px 5px 5px 5px;
+	border: none;
+	outline: none;
+	text-decoration: none;
+	box-shadow: none;
+}
+input::-webkit-input-placeholder {
+	text-decoration: none;
+}
+
+.heading {
+	margin-left: 40vw;
+}
+
+.book-button {
+	margin-left: 48vw;
+	background-color: #4caf50; /* Green color, change to your desired color */
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
+	margin-top: 20px; /* Adjust the margin as needed */
+}
+
+.book-button:hover {
+	background-color: #45a049; /* Darker green color on hover, change as desired */
+}

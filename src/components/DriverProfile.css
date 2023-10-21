@@ -1,0 +1,65 @@
+.driver-profile {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	text-align: center;
+	background-color: black;
+	color: white;
+	padding: 20px;
+	height: 100vh;
+	width: 100vw;
+	border-radius: 20px;
+}
+
+.profile-photo img {
+	border-radius: 50%;
+	width: 150px;
+	height: 150px;
+	object-fit: cover;
+	border: 2px solid white;
+}
+
+.driver-info {
+	margin: 10px;
+	font-size: 30px;
+	font-family: Arial, sans-serif;
+}
+
+.driver-stats {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	font-family: Arial, sans-serif;
+	font-size: 30px;
+}
+
+.driver-stats > div {
+	text-align: center;
+	margin: 40px;
+}
+
+.star {
+	color: gold;
+	font-size: 30px;
+}
+
+.call-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.call-button button {
+	background-color: #008cba;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	padding: 10px 20px;
+	cursor: pointer;
+}
+
+.call-button button i {
+	margin-right: 5px;
+}

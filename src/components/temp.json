@@ -1,0 +1,172 @@
+{
+	"locations": {
+		"chennai international airport (maa)": {
+			"latitude": 12.99,
+			"longitude": 80.169
+		},
+		"chrompet": {
+			"latitude": 12.947767,
+			"longitude": 80.139424
+		},
+		"thoraipakkam": {
+			"latitude": 12.9416,
+			"longitude": 80.2362
+		},
+		"chennai central railway station": {
+			"latitude": 13.0837,
+			"longitude": 80.275
+		},
+		"egmore railway station": {
+			"latitude": 13.0756,
+			"longitude": 80.2604
+		},
+		"marina beach": {
+			"latitude": 13.0573,
+			"longitude": 80.2714
+		},
+		"besant nagar beach": {
+			"latitude": 12.9832,
+			"longitude": 80.2707
+		},
+		"kapaleeshwarar temple": {
+			"latitude": 13.0334,
+			"longitude": 80.2673
+		},
+		"vadapalani murugan temple": {
+			"latitude": 13.0495,
+			"longitude": 80.2144
+		},
+		"ashtalakshmi temple": {
+			"latitude": 13.0244,
+			"longitude": 80.113
+		},
+		"parthasarathy temple": {
+			"latitude": 13.0525,
+			"longitude": 80.2783
+		},
+		"government museum": {
+			"latitude": 13.0739,
+			"longitude": 80.2652
+		},
+		"valluvar kottam": {
+			"latitude": 13.0585,
+			"longitude": 80.2453
+		},
+		"guindy national park": {
+			"latitude": 13.0077,
+			"longitude": 80.2313
+		},
+		"semmozhi poonga": {
+			"latitude": 13.0566,
+			"longitude": 80.2632
+		},
+		"santhome basilica": {
+			"latitude": 13.03,
+			"longitude": 80.2787
+		},
+		"koyambedu bus terminus": {
+			"latitude": 13.0716,
+			"longitude": 80.1918
+		},
+		"express avenue mall": {
+			"latitude": 13.0589,
+			"longitude": 80.265
+		},
+		"phoenix marketcity": {
+			"latitude": 12.9889,
+			"longitude": 80.2056
+		},
+		"spencer plaza": {
+			"latitude": 13.0591,
+			"longitude": 80.2647
+		},
+		"t nagar": {
+			"latitude": 13.0415,
+			"longitude": 80.2342
+		},
+		"mylapore": {
+			"latitude": 13.0339,
+			"longitude": 80.2683
+		},
+		"nanganallur": {
+			"latitude": 12.9767,
+			"longitude": 80.1898
+		},
+		"thiruvanmiyur": {
+			"latitude": 12.9647,
+			"longitude": 80.256
+		},
+		"adyar": {
+			"latitude": 13.0068,
+			"longitude": 80.2513
+		},
+		"royapettah": {
+			"latitude": 13.0586,
+			"longitude": 80.2687
+		},
+		"t nagar ranganathan street": {
+			"latitude": 13.0407,
+			"longitude": 80.2384
+		},
+		"pallikaranai marsh": {
+			"latitude": 12.9305,
+			"longitude": 80.2029
+		},
+		"anna university": {
+			"latitude": 13.0103,
+			"longitude": 80.2337
+		},
+		"iit madras": {
+			"latitude": 12.9915,
+			"longitude": 80.2357
+		},
+		"madras high court": {
+			"latitude": 13.0674,
+			"longitude": 80.2707
+		},
+		"theosophical society adyar": {
+			"latitude": 12.9942,
+			"longitude": 80.2647
+		},
+		"royapuram fishing harbour": {
+			"latitude": 13.1031,
+			"longitude": 80.2954
+		},
+		"st thomas mount": {
+			"latitude": 12.9934,
+			"longitude": 80.1844
+		},
+		"birla planetarium": {
+			"latitude": 13.02,
+			"longitude": 80.265
+		},
+		"chetpet ecopark": {
+			"latitude": 13.0734,
+			"longitude": 80.2417
+		},
+		"ripon building": {
+			"latitude": 13.0871,
+			"longitude": 80.2783
+		},
+		"chennai snake park": {
+			"latitude": 12.9781,
+			"longitude": 80.2446
+		},
+		"brahmapuram reservoir": {
+			"latitude": 13.076,
+			"longitude": 80.2051
+		},
+		"kishkinta theme park": {
+			"latitude": 12.9443,
+			"longitude": 80.143
+		},
+		"kovalam beach": {
+			"latitude": 12.7957,
+			"longitude": 80.2497
+		},
+		"mahabalipuram (mamallapuram)": {
+			"latitude": 12.6269,
+			"longitude": 80.1923
+		}
+	}
+}
