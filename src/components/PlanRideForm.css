@@ -1,7 +1,7 @@
 .plan-ride {
 	align-items: center;
 	justify-content: center;
-	margin-left: 40vw;
+	margin-left: 38vw;
 }
 
 .ride-details {
@@ -34,6 +34,7 @@
 	margin: 10px;
 	border-radius: 15px;
 	border: 2px solid #191818;
+	width: 380px;
 }
 
 input {
@@ -47,6 +48,47 @@ input {
 }
 input::-webkit-input-placeholder {
 	text-decoration: none;
+}
+
+/* Define your CSS styles for the select component */
+.custom-select {
+	width: 100%;
+	padding: 10px;
+	margin: 5px 5px 5px 5px;
+	border: none;
+	outline: none;
+	text-decoration: none;
+	box-shadow: none;
+}
+
+/* Remove the text-decoration for the placeholder */
+.custom-select::-webkit-input-placeholder {
+	text-decoration: none;
+}
+
+/* Style the dropdown indicator (caret) */
+.custom-select .react-select__indicator {
+	color: #333; /* Customize the color as needed */
+}
+
+/* Style the option items */
+.custom-select .react-select__menu {
+	border: none;
+	box-shadow: none;
+	text-decoration: none;
+	/* Add more styles as needed */
+}
+
+/* Style the selected value */
+.custom-select .react-select__single-value {
+	text-decoration: none;
+	/* Add more styles as needed */
+}
+
+/* Style the options in the dropdown */
+.custom-select .react-select__option {
+	text-decoration: none;
+	/* Add more styles as needed */
 }
 
 .heading {
