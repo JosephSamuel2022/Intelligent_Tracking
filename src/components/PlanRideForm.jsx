@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { database } from "../firebase-config";
 import { getDatabase, ref, get } from "firebase/database";
 import { useEffect } from "react";
+import axios from "axios";
 import Select from "react-select";
 
 const PlanRideForm = () => {
@@ -18,10 +19,38 @@ const PlanRideForm = () => {
 	const [locationDataTo, setLocationDataTo] = useState(null);
 
 	useEffect(() => {
-		if (locationDataFrom !== null && locationDataTo !== null) {
-			const locationState = { from: locationDataFrom, to: locationDataTo };
-			navigate("/map", { state: locationState });
-		}
+		const fetchData = async () => {
+			if (locationDataFrom && locationDataTo) {
+				const startCoords = `${locationDataFrom.latitude},${locationDataFrom.longitude}`; // Replace with the actual key for coordinates in locationData
+				console.log(startCoords);
+				const endCoords = `${locationDataTo.latitude}, ${locationDataTo.longitude}`; // Replace with the actual key for coordinates in locationData
+
+				try {
+					const response = await axios.get(
+						"http://localhost:5000/shortest_path",
+						{
+							params: {
+								start_coords: startCoords,
+								end_coords: endCoords,
+							},
+						}
+					);
+
+					const shortestPathCoordinates = response.data; // Assuming the Flask response contains the coordinates
+					const locationState = {
+						from: locationDataFrom,
+						to: locationDataTo,
+						shortestPath: shortestPathCoordinates, // Add the shortest path array to the state
+					};
+					navigate("/map", { state: locationState });
+				} catch (error) {
+					console.error("Error fetching shortest path:", error);
+					// Handle the error as needed
+				}
+			}
+		};
+
+		fetchData();
 	}, [locationDataFrom, locationDataTo]);
 
 	const handleLocationSearchFrom = async () => {

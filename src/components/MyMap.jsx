@@ -1,5 +1,11 @@
 import React from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import {
+	MapContainer,
+	TileLayer,
+	Marker,
+	Popup,
+	Polyline,
+} from "react-leaflet";
 import { useEffect, useState } from "react";
 import DriverProfile from "./DriverProfile";
 import axios from "axios";
@@ -23,10 +29,20 @@ const MyMap = () => {
 	// 	console.log(location);
 	// };
 	const location = useLocation();
-	const { from, to } = location.state;
+	const { from, to, shortestPath } = location.state;
 
 	const locationDataFrom = from;
 	const locationDataTo = to;
+
+	const coordinates = shortestPath;
+
+	const polylineOptions = {
+		color: "red", // Line color
+		weight: 5, // Line weight (thickness)
+		opacity: 0.7, // Line opacity (0 to 1)
+		dashArray: "5 10", // Dash pattern (e.g., "5 10" for dashed line)
+		lineCap: "round", // Line cap style ("butt", "round", "square")
+	};
 
 	const locations = [
 		{
@@ -52,6 +68,7 @@ const MyMap = () => {
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 					url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 				/>
+				<Polyline pathOptions={polylineOptions} positions={coordinates} />
 				{locations.map((location, index) => (
 					<Marker
 						key={index}
