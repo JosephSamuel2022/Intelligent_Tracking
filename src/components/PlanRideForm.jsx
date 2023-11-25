@@ -37,6 +37,7 @@ const PlanRideForm = () => {
 					);
 
 					const shortestPathCoordinates = response.data; // Assuming the Flask response contains the coordinates
+
 					const locationState = {
 						from: locationDataFrom,
 						to: locationDataTo,
