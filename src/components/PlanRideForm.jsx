@@ -18,6 +18,21 @@ const PlanRideForm = () => {
 	const [locationDataFrom, setLocationDataFrom] = useState(null);
 	const [locationDataTo, setLocationDataTo] = useState(null);
 
+	const [locationDataIntermediate, setLocationDataIntermediate] =
+		useState(null);
+
+	const [locationDataB1, setLocationDataB1] = useState(null);
+	const [locationDataB2, setLocationDataB2] = useState(null);
+
+	const [showIntermediateStop, setShowIntermediateStop] = useState(false);
+	const [showBlockages, setShowBlockages] = useState(false);
+
+	const [intermediateStop, setIntermediateStop] = useState(null);
+	const [blockage1, setBlockage1] = useState(null);
+	const [blockage2, setBlockage2] = useState(null);
+
+	const [blockageSelected, setBlockageSelected] = useState(true);
+
 	useEffect(() => {
 		const fetchData = async () => {
 			if (locationDataFrom && locationDataTo) {
@@ -25,34 +40,132 @@ const PlanRideForm = () => {
 				console.log(startCoords);
 				const endCoords = `${locationDataTo.latitude}, ${locationDataTo.longitude}`; // Replace with the actual key for coordinates in locationData
 
-				try {
-					const response = await axios.get(
-						"http://localhost:5000/shortest_path",
-						{
+				let url = "";
+
+				if (!intermediateStop && !blockage1 && !blockage2) {
+					url = "http://localhost:5000/shortest_path";
+				} else if (intermediateStop && !blockage1 && !blockage2) {
+					url = "http://localhost:5000/priority";
+				} else if (!intermediateStop && blockage1 && blockage2) {
+					url = "http://localhost:5000/blockage";
+				} else if (intermediateStop && blockage1 && blockage2) {
+					url = "http://localhost:5000/blockagenpriority";
+				}
+				if (!intermediateStop && !blockage1 && !blockage2) {
+					try {
+						const response = await axios.get(url, {
 							params: {
 								start_coords: startCoords,
 								end_coords: endCoords,
 							},
+						});
+
+						const shortestPathCoordinates = response.data; // Assuming the Flask response contains the coordinates
+
+						const locationState = {
+							from: locationDataFrom,
+							to: locationDataTo,
+							shortestPath: shortestPathCoordinates, // Add the shortest path array to the state
+						};
+						navigate("/map", { state: locationState });
+					} catch (error) {
+						console.error("Error fetching shortest path:", error);
+						// Handle the error as needed
+					}
+				} else if (intermediateStop && !blockage1 && !blockage2) {
+					if (locationDataIntermediate) {
+						console.log(locationDataIntermediate);
+						const iCoords = `${locationDataIntermediate.latitude}, ${locationDataIntermediate.longitude}`;
+						try {
+							const response = await axios.get(url, {
+								params: {
+									start_coords: startCoords,
+									end_coords: endCoords,
+									intermediate_coords: iCoords,
+								},
+							});
+
+							const shortestPathCoordinates = response.data; // Assuming the Flask response contains the coordinates
+
+							const locationState = {
+								from: locationDataFrom,
+								to: locationDataTo,
+								shortestPath: shortestPathCoordinates, // Add the shortest path array to the state
+							};
+							navigate("/map", { state: locationState });
+						} catch (error) {
+							console.error("Error fetching shortest path:", error);
+							// Handle the error as needed
 						}
-					);
+					}
+				} else if (!intermediateStop && blockage1 && blockage2) {
+					if (locationDataB1 && locationDataB2) {
+						const b1Coords = `${locationDataB1.latitude}, ${locationDataB1.longitude}`;
+						const b2Coords = `${locationDataB2.latitude}, ${locationDataB2.longitude}`;
+						try {
+							const response = await axios.get(url, {
+								params: {
+									start_coords: startCoords,
+									end_coords: endCoords,
+									blockage1_coords: b1Coords,
+									blockage2_coords: b2Coords,
+								},
+							});
 
-					const shortestPathCoordinates = response.data; // Assuming the Flask response contains the coordinates
+							const shortestPathCoordinates = response.data; // Assuming the Flask response contains the coordinates
 
-					const locationState = {
-						from: locationDataFrom,
-						to: locationDataTo,
-						shortestPath: shortestPathCoordinates, // Add the shortest path array to the state
-					};
-					navigate("/map", { state: locationState });
-				} catch (error) {
-					console.error("Error fetching shortest path:", error);
-					// Handle the error as needed
+							const locationState = {
+								from: locationDataFrom,
+								to: locationDataTo,
+								shortestPath: shortestPathCoordinates, // Add the shortest path array to the state
+							};
+							navigate("/map", { state: locationState });
+						} catch (error) {
+							console.error("Error fetching shortest path:", error);
+							// Handle the error as needed
+						}
+					}
+				} else {
+					if (locationDataIntermediate && locationDataB1 && locationDataB2) {
+						const iCoords = `${locationDataIntermediate.latitude}, ${locationDataIntermediate.longitude}`;
+						const b1Coords = `${locationDataB1.latitude}, ${locationDataB1.longitude}`;
+						const b2Coords = `${locationDataB2.latitude}, ${locationDataB2.longitude}`;
+						try {
+							const response = await axios.get(url, {
+								params: {
+									start_coords: startCoords,
+									end_coords: endCoords,
+									intermediate_coords: iCoords,
+									blockage1_coords: b1Coords,
+									blockage2_coords: b2Coords,
+								},
+							});
+
+							const shortestPathCoordinates = response.data; // Assuming the Flask response contains the coordinates
+
+							const locationState = {
+								from: locationDataFrom,
+								to: locationDataTo,
+								shortestPath: shortestPathCoordinates, // Add the shortest path array to the state
+							};
+							navigate("/map", { state: locationState });
+						} catch (error) {
+							console.error("Error fetching shortest path:", error);
+							// Handle the error as needed
+						}
+					}
 				}
 			}
 		};
 
 		fetchData();
-	}, [locationDataFrom, locationDataTo]);
+	}, [
+		locationDataFrom,
+		locationDataTo,
+		locationDataIntermediate,
+		locationDataB1,
+		locationDataB2,
+	]);
 
 	const handleLocationSearchFrom = async () => {
 		if (locationNameFrom.trim() === "") {
@@ -98,12 +211,126 @@ const PlanRideForm = () => {
 		}
 	};
 
+	const handleLocationSearchIntermediate = async () => {
+		if (intermediateStop) {
+			const intermediateStops = intermediateStop.value;
+			if (intermediateStops.trim() === "") {
+				return; // Handle empty input or validation as needed.
+			}
+
+			try {
+				const db = getDatabase();
+				const locationsRef = ref(db, "locations/" + intermediateStops);
+
+				const snapshot = await get(locationsRef);
+				if (snapshot.exists()) {
+					// Update the locationDataIntermediate state here before continuing
+					setLocationDataIntermediate((prevData) => snapshot.val());
+					// Continue with other actions or set flags to proceed with the API call
+				} else {
+					setLocationDataIntermediate(null);
+					// Handle case where location was not found in the database.
+				}
+			} catch (error) {
+				console.error("Error querying the database:", error);
+				// Handle the error as needed.
+			}
+		}
+	};
+
+	const handleLocationSearchB1 = async () => {
+		if (blockage1) {
+			const blockage1s = blockage1.value;
+
+			if (blockage1s.trim() === "") {
+				return; // Handle empty input or validation as needed.
+			}
+
+			try {
+				const db = getDatabase();
+				const locationsRef = ref(db, "locations/" + blockage1s);
+
+				const snapshot = await get(locationsRef);
+				if (snapshot.exists()) {
+					setLocationDataB1((prevData) => snapshot.val());
+				} else {
+					setLocationDataB1(null);
+					// Handle case where location was not found in the database.
+				}
+			} catch (error) {
+				console.error("Error querying the database:", error);
+				// Handle the error as needed.
+			}
+		}
+	};
+
+	const handleLocationSearchB2 = async () => {
+		if (blockage2) {
+			const blockage2s = blockage2.value;
+			if (blockage2s.trim() === "") {
+				return; // Handle empty input or validation as needed.
+			}
+
+			try {
+				const db = getDatabase();
+				const locationsRef = ref(db, "locations/" + blockage2s);
+
+				const snapshot = await get(locationsRef);
+				if (snapshot.exists()) {
+					setLocationDataB2((prevData) => snapshot.val());
+				} else {
+					setLocationDataB2(null);
+					// Handle case where location was not found in the database.
+				}
+			} catch (error) {
+				console.error("Error querying the database:", error);
+				// Handle the error as needed.
+			}
+		}
+	};
+
 	const handleBookClick = async () => {
 		await handleLocationSearchFrom();
 		await handleLocationSearchTo();
+		await handleLocationSearchIntermediate();
+		await handleLocationSearchB1();
+		await handleLocationSearchB2();
 		console.log(locationDataFrom);
 		console.log(locationDataTo);
 	};
+
+	const handleIntermediateStopChange = (selectedOption) => {
+		setIntermediateStop(selectedOption);
+	};
+
+	const handleDeleteIntermediateStop = () => {
+		setIntermediateStop(null); // Reset intermediate stop value to null
+		setShowIntermediateStop(false); // Hide intermediate stop section
+	};
+
+	const handleDeleteBlockages = () => {
+		setBlockage1(null); // Reset blockage 1 value to null
+		setBlockage2(null); // Reset blockage 2 value to null
+		setShowBlockages(false); // Hide blockages section
+	};
+
+	const handleBlockageChange = (selectedOption, setter) => {
+		setter(selectedOption);
+
+		// Check if only one blockage is selected
+	};
+
+	useEffect(() => {
+		// Check if only one blockage is selected
+		const isOneBlockageSelected =
+			(blockage1 && !blockage2) || (!blockage1 && blockage2);
+
+		// Check if from and to locations are selected
+		const areLocationsSelected = locationNameFrom && locationNameTo;
+
+		// Update blockageSelected state based on the conditions
+		setBlockageSelected(areLocationsSelected && !isOneBlockageSelected);
+	}, [blockage1, blockage2, locationNameFrom, locationNameTo]);
 
 	const options = [
 		{
@@ -165,12 +392,23 @@ const PlanRideForm = () => {
 			label: "Mahabalipuram (Mamallapuram)",
 		},
 	];
-	const filteredOptionsFrom = options.filter(
-		(option) => option.value !== locationNameTo
-	);
-	const filteredOptionsTo = options.filter(
-		(option) => option.value !== locationNameFrom
-	);
+	const filterOptions = () => {
+		const selectedValues = [
+			locationNameFrom,
+			locationNameTo,
+			intermediateStop?.value,
+			blockage1?.value,
+			blockage2?.value,
+		];
+
+		const filteredOptions = options.filter(
+			(option) => !selectedValues.includes(option.value)
+		);
+
+		return filteredOptions;
+	};
+
+	const filteredOptions = filterOptions();
 
 	return (
 		<div>
@@ -181,7 +419,7 @@ const PlanRideForm = () => {
 						<div className='circle'></div>
 						<Select
 							className='custom-select'
-							options={filteredOptionsFrom}
+							options={filteredOptions}
 							placeholder='Select From Location'
 							spellCheck='false'
 							defaultValue={lNameFrom}
@@ -197,7 +435,7 @@ const PlanRideForm = () => {
 						<div className='square'></div>
 						<Select
 							className='custom-select'
-							options={filteredOptionsTo}
+							options={filteredOptions}
 							placeholder='Select To Location'
 							spellCheck='false'
 							defaultValue={lNameTo}
@@ -208,8 +446,78 @@ const PlanRideForm = () => {
 						/>
 					</div>
 				</div>
+				<div className='ride-details-n'>
+					{showIntermediateStop && (
+						<>
+							<button onClick={handleDeleteIntermediateStop}>
+								Delete Intermediate Stop
+							</button>
+
+							<div className='to-input'>
+								<div className='circle-i'></div>
+								<Select
+									className='custom-select'
+									options={filteredOptions}
+									placeholder='Select Intermediate Stop'
+									spellCheck='false'
+									defaultValue={intermediateStop}
+									onChange={(selectedOption) =>
+										handleIntermediateStopChange(selectedOption)
+									}
+								/>
+							</div>
+						</>
+					)}
+					{!showIntermediateStop && (
+						<button
+							onClick={() => setShowIntermediateStop(!showIntermediateStop)}>
+							Add Intermediate Stop
+						</button>
+					)}
+				</div>
+				<div className='ride-details-m'>
+					{showBlockages && (
+						<>
+							<button onClick={handleDeleteBlockages}>Delete Blockages</button>
+							<div className='to-input'>
+								<div className='circle-b'></div>
+								<Select
+									className='custom-select'
+									options={filteredOptions}
+									placeholder='Select Blockage 1'
+									spellCheck='false'
+									defaultValue={blockage1}
+									onChange={(selectedOption) =>
+										handleBlockageChange(selectedOption, setBlockage1)
+									}
+								/>
+							</div>
+							<div className='to-input'>
+								<div className='circle-b'></div>
+								<Select
+									className='custom-select'
+									options={filteredOptions}
+									placeholder='Select Blockage 2'
+									spellCheck='false'
+									defaultValue={blockage2}
+									onChange={(selectedOption) =>
+										handleBlockageChange(selectedOption, setBlockage2)
+									}
+								/>
+							</div>
+						</>
+					)}
+					{!showBlockages && (
+						<button onClick={() => setShowBlockages(!showBlockages)}>
+							Add Blockages
+						</button>
+					)}
+				</div>
 			</div>
-			<button className='book-button' onClick={handleBookClick}>
+			<button
+				className={`book-button ${blockageSelected ? "" : "disabled"}`}
+				onClick={handleBookClick}
+				disabled={!blockageSelected}>
 				Book
 			</button>
 		</div>

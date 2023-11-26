@@ -11,10 +11,38 @@
 	margin: 20px 0;
 }
 
+.ride-details-n {
+	align-items: center;
+	justify-content: center;
+	margin: 20px 0;
+}
+
+.ride-details-m {
+	align-items: center;
+	justify-content: center;
+	margin: 20px 0;
+}
+
 .circle {
 	width: 15px;
 	height: 15px;
 	background-color: #e20d0d;
+	border-radius: 50%;
+	margin: 5px;
+}
+
+.circle-i {
+	width: 15px;
+	height: 15px;
+	background-color: #e2740d;
+	border-radius: 50%;
+	margin: 5px;
+}
+
+.circle-b {
+	width: 15px;
+	height: 15px;
+	background-color: #310de2;
 	border-radius: 50%;
 	margin: 5px;
 }
@@ -96,7 +124,7 @@ input::-webkit-input-placeholder {
 }
 
 .book-button {
-	margin-left: 48vw;
+	margin-left: 46vw;
 	background-color: #4caf50; /* Green color, change to your desired color */
 	color: white;
 	border: none;
@@ -104,9 +132,16 @@ input::-webkit-input-placeholder {
 	border-radius: 5px;
 	cursor: pointer;
 	font-size: 16px;
-	margin-top: 20px; /* Adjust the margin as needed */
+	margin-top: 20px;
+	margin-bottom: 20px; /* Adjust the margin as needed */
 }
 
 .book-button:hover {
 	background-color: #45a049; /* Darker green color on hover, change as desired */
+}
+
+/* In your CSS file */
+.book-button.disabled {
+	background-color: rgb(178, 240, 178);
+	cursor: not-allowed;
 }
