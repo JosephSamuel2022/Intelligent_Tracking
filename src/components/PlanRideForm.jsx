@@ -9,6 +9,7 @@ import Select from "react-select";
 
 const PlanRideForm = () => {
 	const navigate = useNavigate();
+	const [nation, changeNation] = useState("India");
 	const [locationNameFrom, setFromLocation] = useState(null);
 	const [locationNameTo, setToLocation] = useState(null);
 
@@ -20,6 +21,14 @@ const PlanRideForm = () => {
 
 	const [locationDataIntermediate, setLocationDataIntermediate] =
 		useState(null);
+	const [locationDataIntermediate2, setLocationDataIntermediate2] =
+		useState(null);
+	const [locationDataIntermediate3, setLocationDataIntermediate3] =
+		useState(null);
+	const [locationDataIntermediate4, setLocationDataIntermediate4] =
+		useState(null);
+	const [locationDataIntermediate5, setLocationDataIntermediate5] =
+		useState(null);
 
 	const [locationDataB1, setLocationDataB1] = useState(null);
 	const [locationDataB2, setLocationDataB2] = useState(null);
@@ -28,6 +37,11 @@ const PlanRideForm = () => {
 	const [showBlockages, setShowBlockages] = useState(false);
 
 	const [intermediateStop, setIntermediateStop] = useState(null);
+	const [intermediateStop2, setIntermediateStop2] = useState(null);
+	const [intermediateStop3, setIntermediateStop3] = useState(null);
+	const [intermediateStop4, setIntermediateStop4] = useState(null);
+	const [intermediateStop5, setIntermediateStop5] = useState(null);
+
 	const [blockage1, setBlockage1] = useState(null);
 	const [blockage2, setBlockage2] = useState(null);
 
@@ -57,6 +71,7 @@ const PlanRideForm = () => {
 							params: {
 								start_coords: startCoords,
 								end_coords: endCoords,
+								nation: nation,
 							},
 						});
 
@@ -73,15 +88,29 @@ const PlanRideForm = () => {
 						// Handle the error as needed
 					}
 				} else if (intermediateStop && !blockage1 && !blockage2) {
-					if (locationDataIntermediate) {
+					if (
+						locationDataIntermediate &&
+						locationDataIntermediate2 &&
+						locationDataIntermediate3 &&
+						locationDataIntermediate4 &&
+						locationDataIntermediate5
+					) {
 						console.log(locationDataIntermediate);
 						const iCoords = `${locationDataIntermediate.latitude}, ${locationDataIntermediate.longitude}`;
+						const i2Coords = `${locationDataIntermediate2.latitude}, ${locationDataIntermediate2.longitude}`;
+						const i3Coords = `${locationDataIntermediate3.latitude}, ${locationDataIntermediate3.longitude}`;
+						const i4Coords = `${locationDataIntermediate4.latitude}, ${locationDataIntermediate4.longitude}`;
+						const i5Coords = `${locationDataIntermediate5.latitude}, ${locationDataIntermediate5.longitude}`;
 						try {
 							const response = await axios.get(url, {
 								params: {
 									start_coords: startCoords,
 									end_coords: endCoords,
 									intermediate_coords: iCoords,
+									intermediate2_coords: i2Coords,
+									intermediate3_coords: i3Coords,
+									intermediate4_coords: i4Coords,
+									intermediate5_coords: i5Coords,
 								},
 							});
 
@@ -126,8 +155,21 @@ const PlanRideForm = () => {
 						}
 					}
 				} else {
-					if (locationDataIntermediate && locationDataB1 && locationDataB2) {
+					if (
+						locationDataIntermediate &&
+						locationDataIntermediate2 &&
+						locationDataIntermediate3 &&
+						locationDataIntermediate4 &&
+						locationDataIntermediate5 &&
+						locationDataB1 &&
+						locationDataB2
+					) {
 						const iCoords = `${locationDataIntermediate.latitude}, ${locationDataIntermediate.longitude}`;
+						const i2Coords = `${locationDataIntermediate2.latitude}, ${locationDataIntermediate2.longitude}`;
+						const i3Coords = `${locationDataIntermediate3.latitude}, ${locationDataIntermediate3.longitude}`;
+						const i4Coords = `${locationDataIntermediate4.latitude}, ${locationDataIntermediate4.longitude}`;
+						const i5Coords = `${locationDataIntermediate5.latitude}, ${locationDataIntermediate5.longitude}`;
+
 						const b1Coords = `${locationDataB1.latitude}, ${locationDataB1.longitude}`;
 						const b2Coords = `${locationDataB2.latitude}, ${locationDataB2.longitude}`;
 						try {
@@ -136,6 +178,10 @@ const PlanRideForm = () => {
 									start_coords: startCoords,
 									end_coords: endCoords,
 									intermediate_coords: iCoords,
+									intermediate2_coords: i2Coords,
+									intermediate3_coords: i3Coords,
+									intermediate4_coords: i4Coords,
+									intermediate5_coords: i5Coords,
 									blockage1_coords: b1Coords,
 									blockage2_coords: b2Coords,
 								},
@@ -163,6 +209,10 @@ const PlanRideForm = () => {
 		locationDataFrom,
 		locationDataTo,
 		locationDataIntermediate,
+		locationDataIntermediate2,
+		locationDataIntermediate3,
+		locationDataIntermediate4,
+		locationDataIntermediate5,
 		locationDataB1,
 		locationDataB2,
 	]);
@@ -238,6 +288,114 @@ const PlanRideForm = () => {
 		}
 	};
 
+	const handleLocationSearchIntermediate2 = async () => {
+		if (intermediateStop2) {
+			const intermediateStops = intermediateStop2.value;
+			if (intermediateStops.trim() === "") {
+				return; // Handle empty input or validation as needed.
+			}
+
+			try {
+				const db = getDatabase();
+				const locationsRef = ref(db, "locations/" + intermediateStops);
+
+				const snapshot = await get(locationsRef);
+				if (snapshot.exists()) {
+					// Update the locationDataIntermediate state here before continuing
+					setLocationDataIntermediate2((prevData) => snapshot.val());
+					// Continue with other actions or set flags to proceed with the API call
+				} else {
+					setLocationDataIntermediate2(null);
+					// Handle case where location was not found in the database.
+				}
+			} catch (error) {
+				console.error("Error querying the database:", error);
+				// Handle the error as needed.
+			}
+		}
+	};
+
+	const handleLocationSearchIntermediate3 = async () => {
+		if (intermediateStop3) {
+			const intermediateStops = intermediateStop3.value;
+			if (intermediateStops.trim() === "") {
+				return; // Handle empty input or validation as needed.
+			}
+
+			try {
+				const db = getDatabase();
+				const locationsRef = ref(db, "locations/" + intermediateStops);
+
+				const snapshot = await get(locationsRef);
+				if (snapshot.exists()) {
+					// Update the locationDataIntermediate state here before continuing
+					setLocationDataIntermediate3((prevData) => snapshot.val());
+					// Continue with other actions or set flags to proceed with the API call
+				} else {
+					setLocationDataIntermediate3(null);
+					// Handle case where location was not found in the database.
+				}
+			} catch (error) {
+				console.error("Error querying the database:", error);
+				// Handle the error as needed.
+			}
+		}
+	};
+
+	const handleLocationSearchIntermediate4 = async () => {
+		if (intermediateStop4) {
+			const intermediateStops = intermediateStop4.value;
+			if (intermediateStops.trim() === "") {
+				return; // Handle empty input or validation as needed.
+			}
+
+			try {
+				const db = getDatabase();
+				const locationsRef = ref(db, "locations/" + intermediateStops);
+
+				const snapshot = await get(locationsRef);
+				if (snapshot.exists()) {
+					// Update the locationDataIntermediate state here before continuing
+					setLocationDataIntermediate4((prevData) => snapshot.val());
+					// Continue with other actions or set flags to proceed with the API call
+				} else {
+					setLocationDataIntermediate4(null);
+					// Handle case where location was not found in the database.
+				}
+			} catch (error) {
+				console.error("Error querying the database:", error);
+				// Handle the error as needed.
+			}
+		}
+	};
+
+	const handleLocationSearchIntermediate5 = async () => {
+		if (intermediateStop5) {
+			const intermediateStops = intermediateStop5.value;
+			if (intermediateStops.trim() === "") {
+				return; // Handle empty input or validation as needed.
+			}
+
+			try {
+				const db = getDatabase();
+				const locationsRef = ref(db, "locations/" + intermediateStops);
+
+				const snapshot = await get(locationsRef);
+				if (snapshot.exists()) {
+					// Update the locationDataIntermediate state here before continuing
+					setLocationDataIntermediate5((prevData) => snapshot.val());
+					// Continue with other actions or set flags to proceed with the API call
+				} else {
+					setLocationDataIntermediate5(null);
+					// Handle case where location was not found in the database.
+				}
+			} catch (error) {
+				console.error("Error querying the database:", error);
+				// Handle the error as needed.
+			}
+		}
+	};
+
 	const handleLocationSearchB1 = async () => {
 		if (blockage1) {
 			const blockage1s = blockage1.value;
@@ -295,17 +453,34 @@ const PlanRideForm = () => {
 		await handleLocationSearchIntermediate();
 		await handleLocationSearchB1();
 		await handleLocationSearchB2();
+		await handleLocationSearchIntermediate2();
+		await handleLocationSearchIntermediate3();
+		await handleLocationSearchIntermediate4();
+		await handleLocationSearchIntermediate5();
+
+		const chinaLocations = options.slice(40); // Locations from index 40 (41st element) onwards are in China
+
+		if (chinaLocations.some((option) => option.value === locationNameFrom)) {
+			changeNation("China"); // Update nation state to China
+		} else {
+			changeNation("India"); // Set back to India if it's not in China
+		}
 		console.log(locationDataFrom);
 		console.log(locationDataTo);
 	};
 
-	const handleIntermediateStopChange = (selectedOption) => {
-		setIntermediateStop(selectedOption);
+	const handleIntermediateStopChange = (selectedOption, setter) => {
+		setter(selectedOption);
 	};
 
 	const handleDeleteIntermediateStop = () => {
 		setIntermediateStop(null); // Reset intermediate stop value to null
-		setShowIntermediateStop(false); // Hide intermediate stop section
+		setIntermediateStop2(null);
+		setIntermediateStop3(null);
+		setIntermediateStop4(null);
+		setIntermediateStop5(null);
+		setShowIntermediateStop(false);
+		// Hide intermediate stop section
 	};
 
 	const handleDeleteBlockages = () => {
@@ -391,12 +566,97 @@ const PlanRideForm = () => {
 			value: "mahabalipuram (mamallapuram)",
 			label: "Mahabalipuram (Mamallapuram)",
 		},
+		{
+			value: "Tiananmen Square, China",
+			label: "Tiananmen Square, China",
+		},
+		{
+			value: "Forbidden City, China",
+			label: "Forbidden City, China",
+		},
+		{
+			value: "Temple of Heaven, China",
+			label: "Temple of Heaven, China",
+		},
+		{
+			value: "Summer Palace, China",
+			label: "Summer Palace, China",
+		},
+		{
+			value: "Great Wall of China, China",
+			label: "Great Wall of China, China",
+		},
+		{
+			value: "Beihai Park, China",
+			label: "Beihai Park, China",
+		},
+
+		{
+			value: "Lama Temple, China",
+			label: "Lama Temple, China",
+		},
+		{
+			value: "798 Art Zone, China",
+			label: "798 Art Zone, China",
+		},
+		{
+			value: "National Museum of China, China",
+			label: "National Museum of China, China",
+		},
+		{
+			value: "Ming Tombs, China",
+			label: "Ming Tombs, China",
+		},
+		{
+			value: "National Centre for the Performing Arts, China",
+			label: "National Centre for the Performing Arts, China",
+		},
+		{
+			value: "Old Summer Palace, China",
+			label: "Old Summer Palace, China",
+		},
+		{
+			value: "Beijing Zoo, China",
+			label: "Beijing Zoo, China",
+		},
+		{
+			value: "Olympic Green Park, China",
+			label: "Olympic Green Park, China",
+		},
+		{
+			value: "Yonghe Temple, China",
+			label: "Yonghe Temple, China",
+		},
+		{
+			value: "Beijing Ancient Observatory, China",
+			label: "Beijing Ancient Observatory, China",
+		},
+		{
+			value: "Zhongshan Park, China",
+			label: "Zhongshan Park, China",
+		},
+		{
+			value: "Prince Gong's Mansion, China",
+			label: "Prince Gong's Mansion, China",
+		},
+		{
+			value: "National Stadium, China",
+			label: "National Stadium, China",
+		},
+		{
+			value: "Beijing Capital Museum, China",
+			label: "Beijing Capital Museum, China",
+		},
 	];
 	const filterOptions = () => {
 		const selectedValues = [
 			locationNameFrom,
 			locationNameTo,
 			intermediateStop?.value,
+			intermediateStop2?.value,
+			intermediateStop3?.value,
+			intermediateStop4?.value,
+			intermediateStop5?.value,
 			blockage1?.value,
 			blockage2?.value,
 		];
@@ -458,11 +718,78 @@ const PlanRideForm = () => {
 								<Select
 									className='custom-select'
 									options={filteredOptions}
-									placeholder='Select Intermediate Stop'
+									placeholder='Select Intermediate Stop 1'
 									spellCheck='false'
 									defaultValue={intermediateStop}
 									onChange={(selectedOption) =>
-										handleIntermediateStopChange(selectedOption)
+										handleIntermediateStopChange(
+											selectedOption,
+											setIntermediateStop
+										)
+									}
+								/>
+							</div>
+							<div className='to-input'>
+								<div className='circle-i'></div>
+								<Select
+									className='custom-select'
+									options={filteredOptions}
+									placeholder='Select Intermediate Stop 2'
+									spellCheck='false'
+									defaultValue={intermediateStop2}
+									onChange={(selectedOption) =>
+										handleIntermediateStopChange(
+											selectedOption,
+											setIntermediateStop2
+										)
+									}
+								/>
+							</div>
+							<div className='to-input'>
+								<div className='circle-i'></div>
+								<Select
+									className='custom-select'
+									options={filteredOptions}
+									placeholder='Select Intermediate Stop 3'
+									spellCheck='false'
+									defaultValue={intermediateStop3}
+									onChange={(selectedOption) =>
+										handleIntermediateStopChange(
+											selectedOption,
+											setIntermediateStop3
+										)
+									}
+								/>
+							</div>
+							<div className='to-input'>
+								<div className='circle-i'></div>
+								<Select
+									className='custom-select'
+									options={filteredOptions}
+									placeholder='Select Intermediate Stop 4'
+									spellCheck='false'
+									defaultValue={intermediateStop4}
+									onChange={(selectedOption) =>
+										handleIntermediateStopChange(
+											selectedOption,
+											setIntermediateStop4
+										)
+									}
+								/>
+							</div>
+							<div className='to-input'>
+								<div className='circle-i'></div>
+								<Select
+									className='custom-select'
+									options={filteredOptions}
+									placeholder='Select Intermediate Stop 5'
+									spellCheck='false'
+									defaultValue={intermediateStop5}
+									onChange={(selectedOption) =>
+										handleIntermediateStopChange(
+											selectedOption,
+											setIntermediateStop5
+										)
 									}
 								/>
 							</div>

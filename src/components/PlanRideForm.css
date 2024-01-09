@@ -81,8 +81,9 @@ input::-webkit-input-placeholder {
 /* Define your CSS styles for the select component */
 .custom-select {
 	width: 100%;
-	padding: 10px;
-	margin: 5px 5px 5px 5px;
+	padding: 3px;
+	font-size: 20px;
+	/* margin: 5px 5px 5px 5px; */
 	border: none;
 	outline: none;
 	text-decoration: none;
